@@ -7,23 +7,28 @@ using System.Globalization;
 
 public class Utils
 {
-    public (List<double> xValues, List<double> yValues) LoadData(string path)
+    public (List<string> headers, List<double> xValues, List<double> yValues) LoadData(string path)
     {
+        using (var reader = new StreamReader(path))
+        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
         {
-            using (var reader = new StreamReader(path))
-            using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+            var headers = new List<string>();
+            var xValues = new List<double>();
+            var yValues = new List<double>();
+
+            // Lê o cabeçalho
+            csv.Read();
+            csv.ReadHeader();
+            headers.AddRange(csv.HeaderRecord); // Salva os nomes das colunas
+
+            // Lê os dados
+            while (csv.Read())
             {
-                var xValues = new List<double>();
-                var yValues = new List<double>();
-                csv.Read();
-                csv.ReadHeader();
-                while (csv.Read())
-                {
-                    xValues.Add(csv.GetField<double>(0));
-                    yValues.Add(csv.GetField<double>(1));
-                }
-                return (xValues, yValues);
+                xValues.Add(csv.GetField<double>(0));
+                yValues.Add(csv.GetField<double>(1));
             }
+
+            return (headers, xValues, yValues);
         }
     }
 

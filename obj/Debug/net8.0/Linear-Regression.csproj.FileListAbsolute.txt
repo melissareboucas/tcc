@@ -35,3 +35,4 @@ C:\Users\melis\OneDrive\Área de Trabalho\TCC\LinearRegression\obj\Debug\net8.0\
 C:\Users\melis\OneDrive\Área de Trabalho\TCC\LinearRegression\obj\Debug\net8.0\Linear-Regression.pdb
 C:\Users\melis\OneDrive\Área de Trabalho\TCC\LinearRegression\obj\Debug\net8.0\Linear-Regression.genruntimeconfig.cache
 C:\Users\melis\OneDrive\Área de Trabalho\TCC\LinearRegression\obj\Debug\net8.0\ref\Linear-Regression.dll
+C:\Users\melis\OneDrive\Área de Trabalho\TCC\LinearRegression\obj\Debug\net8.0\Linear-Regression.sourcelink.json

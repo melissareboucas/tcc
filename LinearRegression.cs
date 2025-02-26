@@ -7,11 +7,11 @@ using System.Globalization;
 
 public class LinearRegression
 {
-    public void RunLinearRegression()
+    public void RunLinearRegression(string trainCsv, string testCsv)
     {
         var utils = new Utils();
         // Carrega os dados do arquivo CSV
-        (List<double> xTrain, List<double> yTrain) = utils.LoadData("CaliforniaTrain.csv");
+        (List<string> headersTrain, List<double> xTrain, List<double> yTrain) = utils.LoadData(trainCsv);
 
         // Calcula os coeficientes da regressão linear
         (double beta0, double beta1) = utils.CalculateCoeficients(xTrain, yTrain);
@@ -21,7 +21,7 @@ public class LinearRegression
         double[] lineYs = [beta1 * lineXs[0] + beta0, 500000];
 
         // Calcula os valores de xTest, yTest e yPred
-        (List<double> xTest, List<double> yTest) = utils.LoadData("CaliforniaTest.csv");
+        (List<string> headersTest, List<double> xTest, List<double> yTest) = utils.LoadData(testCsv);
         List<double> yPred = xTest.Select(x => beta1 * x + beta0).ToList();
 
         // Calcula os erros
@@ -37,7 +37,7 @@ public class LinearRegression
         trainData.XLabel("medIncome");
         trainData.YLabel("medHouseValue");
 
-        trainData.SavePng("grafico.png", 600, 400);
+        trainData.SavePng("LinearRegressionTrain.png", 600, 400);
 
         var predictionData = new ScottPlot.Plot();
         predictionData.Add.ScatterPoints(xTest, yPred, color: Colors.Green);
@@ -50,7 +50,7 @@ public class LinearRegression
         string errosTexto = $"MAE: {mae/1000:F2}K\nMSE: {mse/1000:F2}K\nRMSE: {rmse/1000:F2}K";
         predictionData.Add.Annotation(errosTexto);
 
-        predictionData.SavePng("grafico2.png", 600, 400);
+        predictionData.SavePng("LinearRegressionTestxPred.png", 600, 400);
 
         Console.WriteLine($"MAE: {mae}");
         Console.WriteLine($"MSE: {mse}");

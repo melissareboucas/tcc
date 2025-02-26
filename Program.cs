@@ -11,12 +11,12 @@ class Program
     static void Main()
     {
         LinearRegression linearRegression = new LinearRegression();
-        //linearRegression.RunLinearRegression();
+        //linearRegression.RunLinearRegression("Datasets/salaryDataTrain.csv","Datasets/salaryDataTest.csv");
 
         SimpleData simpleData = new SimpleData();
-        simpleData.RunSimpleData();
+        simpleData.RunSimpleData("Datasets/CaliforniaOrderedNoDuplicatesTrain.csv","Datasets/CaliforniaOrderedNoDuplicatesTest.csv");
 
         ComposedRegression composedRegression = new ComposedRegression();
-        composedRegression.RunComposedRegression();
+        composedRegression.RunComposedRegression("Datasets/CaliforniaOrderedNoDuplicatesTrain.csv","Datasets/CaliforniaOrderedNoDuplicatesTest.csv");
     }
 }
