@@ -5,9 +5,9 @@ using System.Globalization;
 
 
 
-public class LinearRegression
+public class LinearRegressionOld
 {
-    public void RunLinearRegression(string trainCsv, string testCsv)
+    public void RunLinearRegressionOld(string trainCsv, string testCsv)
     {
         var utils = new Utils();
         // Carrega os dados do arquivo CSV

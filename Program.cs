@@ -10,13 +10,12 @@ class Program
 {
     static void Main()
     {
+        var dataname = "cHouse";
         LinearRegression linearRegression = new LinearRegression();
-        //linearRegression.RunLinearRegression("Datasets/salaryDataTrain.csv","Datasets/salaryDataTest.csv");
-
-        SimpleData simpleData = new SimpleData();
-        simpleData.RunSimpleData("Datasets/CaliforniaOrderedNoDuplicatesTrain.csv","Datasets/CaliforniaOrderedNoDuplicatesTest.csv");
+        linearRegression.RunLinearRegression($"Datasets/{dataname}.csv");
 
         ComposedRegression composedRegression = new ComposedRegression();
-        composedRegression.RunComposedRegression("Datasets/CaliforniaOrderedNoDuplicatesTrain.csv","Datasets/CaliforniaOrderedNoDuplicatesTest.csv");
+        composedRegression.RunComposedRegression($"Datasets/{dataname}.csv");
+
     }
 }

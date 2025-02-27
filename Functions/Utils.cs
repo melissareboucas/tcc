@@ -7,6 +7,21 @@ using System.Globalization;
 
 public class Utils
 {
+    public List<string> LoadHeaders(string path)
+    {
+        using (var reader = new StreamReader(path))
+        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+        {
+            var headers = new List<string>();
+
+            // Lê o cabeçalho
+            csv.Read();
+            csv.ReadHeader();
+            headers.AddRange(csv.HeaderRecord); // Salva os nomes das colunas
+
+            return headers;
+        }
+    }
     public (List<string> headers, List<double> xValues, List<double> yValues) LoadData(string path)
     {
         using (var reader = new StreamReader(path))
@@ -29,6 +44,44 @@ public class Utils
             }
 
             return (headers, xValues, yValues);
+        }
+    }
+
+    public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitData(string path)
+    {
+        using (var reader = new StreamReader(path))
+        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+        {
+            var xValues = new List<double>();
+            var yValues = new List<double>();
+
+            // Lê o cabeçalho e ignora
+            csv.Read();
+            csv.ReadHeader();
+
+            // Lê os dados já ordenados por Y (garantido pelo CSV)
+            while (csv.Read())
+            {
+                xValues.Add(csv.GetField<double>(0));
+                yValues.Add(csv.GetField<double>(1));
+            }
+
+            // Gera índices aleatórios sem mudar a ordem do Y
+            int total = xValues.Count;
+            int trainSize = (int)(total * 0.8);
+
+            var indices = Enumerable.Range(0, total).OrderBy(_ => Guid.NewGuid()).ToList(); // Embaralha índices
+
+            var trainIndices = indices.Take(trainSize).ToList();
+            var testIndices = indices.Skip(trainSize).ToList();
+
+            // Seleciona os valores correspondentes aos índices aleatórios
+            var trainX = trainIndices.Select(i => xValues[i]).ToList();
+            var trainY = trainIndices.Select(i => yValues[i]).ToList();
+            var testX = testIndices.Select(i => xValues[i]).ToList();
+            var testY = testIndices.Select(i => yValues[i]).ToList();
+
+            return (trainX, trainY, testX, testY);
         }
     }
 

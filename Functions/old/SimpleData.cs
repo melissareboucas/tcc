@@ -32,12 +32,12 @@ public class SimpleData
         // Cria os gráficos
         var trainData = new ScottPlot.Plot();
         trainData.Add.ScatterPoints(xTrain, yTrain, color: Colors.Blue);
-        //var line = trainData.Add.Line(lineXs[0], lineYs[0], lineXs[1], lineYs[1]);
-       // line.Color = Colors.Red;
+        var line = trainData.Add.Line(lineXs[0], lineYs[0], lineXs[1], lineYs[1]);
+        line.Color = Colors.Red;
 
         trainData.Add.Annotation(errosTexto);
 
-        //trainData.Add.ScatterPoints(xTest, yTest, color: Colors.Purple);
+        trainData.Add.ScatterPoints(xTest, yTest, color: Colors.Purple);
         //trainData.Add.ScatterPoints(xTest, yPred, color: Colors.Pink);
 
         trainData.Title("Regressão Linear - Dados Simples");
