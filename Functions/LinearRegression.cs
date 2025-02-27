@@ -26,7 +26,7 @@ public class LinearRegression
         (double beta0, double beta1) = utils.CalculateCoeficients(xTrain, yTrain);
 
         // Calcula os valores para a linha de regressão
-        double[] lineXs = [xTrain.Min(), xTest.Max()];
+        double[] lineXs = [xTrain.Min(), xTrain.Max()];
         double[] lineYs = [beta1 * lineXs[0] + beta0, beta1 * lineXs[1] + beta0];
 
         // Calcula os valores de yPred
@@ -36,8 +36,8 @@ public class LinearRegression
         plot.Add.ScatterPoints(xTest, yTest, color: Colors.Purple);
         plot.Add.ScatterPoints(xTrain, yTrain, color: Colors.Blue);
         plot.Add.ScatterPoints(xTest, yPred, color: Colors.Pink);
-       // var line = plot.Add.Line(lineXs[0], lineYs[0], lineXs[1], lineYs[1]);
-        //line.Color = Colors.Red;
+        var line = plot.Add.Line(lineXs[0], lineYs[0], lineXs[1], lineYs[1]);
+        line.Color = Colors.Red;
 
         // Calcula os erros
         (double mae, double mse, double rmse) = utils.CalculateError(yTest, yPred);

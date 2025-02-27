@@ -17,5 +17,8 @@ class Program
         ComposedRegression composedRegression = new ComposedRegression();
         composedRegression.RunComposedRegression($"Datasets/{dataname}.csv");
 
+        ComposedRegressionAVG composedRegressionv2 = new ComposedRegressionAVG();
+        composedRegressionv2.RunComposedRegressionAVG($"Datasets/{dataname}.csv");
+
     }
 }
