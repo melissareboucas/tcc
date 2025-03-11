@@ -7,6 +7,7 @@ using System.Globalization;
 
 public class SimpleData
 {
+/*
     public void RunSimpleData(string trainCsv, string testCsv)
     {
         var utils = new Utils();
@@ -46,4 +47,5 @@ public class SimpleData
 
         trainData.SavePng("LinearRegression.png", 600, 400);
     }
+*/
 }

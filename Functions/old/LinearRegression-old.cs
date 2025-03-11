@@ -7,6 +7,7 @@ using System.Globalization;
 
 public class LinearRegressionOld
 {
+/*
     public void RunLinearRegressionOld(string trainCsv, string testCsv)
     {
         var utils = new Utils();
@@ -56,5 +57,5 @@ public class LinearRegressionOld
         Console.WriteLine($"MSE: {mse}");
         Console.WriteLine($"RMSE: {rmse}");
     }
-
+*/
 }

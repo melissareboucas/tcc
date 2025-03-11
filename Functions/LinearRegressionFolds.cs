@@ -2,14 +2,17 @@ using ScottPlot;
 
 
 
-public class LinearRegression
+public class LinearRegressionFolds
 {
-    public void RunLinearRegression(string pathCsv)
+    public void RunLinearRegressionFolds(string pathCsv)
     {
         var utils = new Utils();
+
         // Carrega os dados dos arquivos CSV
         List<string> headers = utils.LoadHeaders(pathCsv);
-        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitData(pathCsv);
+
+        int k = 10;
+        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitData2(pathCsv, k);
         List<double> yPred = new List<double>();
 
         // Cria o gráfico
@@ -20,21 +23,34 @@ public class LinearRegression
 
 
         // Calcula os coeficientes da regressão linear
-        (double beta0, double beta1) = utils.CalculateCoeficients(xTrain, yTrain);
+        double totalBeta0 = 0;
+        double totalBeta1 = 0;
 
-        // Calcula os valores para a linha de regressão
-       // double[] lineXs = [xTrain.Min(), xTrain.Max()];
-       // double[] lineYs = [beta1 * lineXs[0] + beta0, beta1 * lineXs[1] + beta0];
+        var foldSize = xTrain.Count / k;
+        var j = foldSize;
+        var max = foldSize;
+        for (int index = 0; index < j; index += foldSize)
+        {
+            (double beta0, double beta1) = utils.CalculateCoeficients(xTrain, yTrain);
+            totalBeta0 += beta0;
+            totalBeta1 += beta1;
+            if (index < xTrain.Count - foldSize)
+            {
+                j += foldSize;
+            }
+        }
+
+        double avgBeta0 = totalBeta0 / k;
+        double avgBeta1 = totalBeta1 / k;
 
         // Calcula os valores de yPred
-        yPred = xTest.Select(x => beta1 * x + beta0).ToList();
+        yPred = xTest.Select(x => avgBeta1 * x + avgBeta0).ToList();
 
         // Adiciona valores de treino, teste e predição no gráfico
         plot.Add.ScatterPoints(xTest, yTest, color: Colors.Purple);
         plot.Add.ScatterPoints(xTrain, yTrain, color: Colors.Blue);
         plot.Add.ScatterPoints(xTest, yPred, color: Colors.Pink);
-     //   var line = plot.Add.Line(lineXs[0], lineYs[0], lineXs[1], lineYs[1]);
-     //   line.Color = Colors.Red;
+
 
         // Calcula os erros
         (double mae, double mse, double rmse) = utils.CalculateError(yTest, yPred);
@@ -44,6 +60,6 @@ public class LinearRegression
         plot.Add.Annotation(errosTexto);
 
         //Salva o gráfico
-        plot.SavePng("LinearRegression.png", 600, 400);
+        plot.SavePng("LinearRegressionFolds.png", 600, 400);
     }
 }
