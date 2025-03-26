@@ -14,7 +14,7 @@ public class ComposedRegression
 
         // Cria o gráfico
         var plot = new ScottPlot.Plot();
-        plot.Title("Regressão Linear - Composição");
+        plot.Title("Regressão Linear - Composição com método 80/20");
         plot.XLabel(headers[0]);
         plot.YLabel(headers[1]);
 
@@ -31,7 +31,7 @@ public class ComposedRegression
             yList.Add(yTrain[i + 1]);
 
             // Calcula os coeficientes da reta
-            (double beta0, double beta1) = utils.CalculateCoeficients(xList, yList);
+            (double beta0, double beta1) = utils.CalculateCoefficients(xList, yList);
 
             // Calcula os valores para montar a reta
             double[] lineXs = [xList[0], xTest.Max()];

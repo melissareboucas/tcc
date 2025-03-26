@@ -19,7 +19,7 @@ public class ComposedRegressionFolds
 
         // Cria o gráfico
         var plot = new ScottPlot.Plot();
-        plot.Title("Regressão Linear - Composição");
+        plot.Title("Regressão Linear - Composição com método Partição");
         plot.XLabel(headers[0]);
         plot.YLabel(headers[1]);
 
@@ -42,7 +42,7 @@ public class ComposedRegressionFolds
                 yList.Add(yTrain[i + 1]);
 
                 // Calcula os coeficientes da reta
-                (double beta0, double beta1) = utils.CalculateCoeficients(xList, yList);
+                (double beta0, double beta1) = utils.CalculateCoefficients(xList, yList);
 
                 // Calcula/atualiza os valores de yTemp
                 if (i == 0)

@@ -11,13 +11,14 @@ public class LinearRegressionFolds
         // Carrega os dados dos arquivos CSV
         List<string> headers = utils.LoadHeaders(pathCsv);
 
+        //define a quantidade de partições
         int k = 10;
         (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitData2(pathCsv, k);
         List<double> yPred = new List<double>();
 
         // Cria o gráfico
         var plot = new ScottPlot.Plot();
-        plot.Title("Regressão Linear - Dados Simples");
+        plot.Title("Regressão Linear - Método Partição");
         plot.XLabel(headers[0]);
         plot.YLabel(headers[1]);
 
@@ -31,7 +32,7 @@ public class LinearRegressionFolds
         var max = foldSize;
         for (int index = 0; index < j; index += foldSize)
         {
-            (double beta0, double beta1) = utils.CalculateCoeficients(xTrain, yTrain);
+            (double beta0, double beta1) = utils.CalculateCoefficients(xTrain, yTrain);
             totalBeta0 += beta0;
             totalBeta1 += beta1;
             if (index < xTrain.Count - foldSize)

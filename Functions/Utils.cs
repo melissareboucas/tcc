@@ -62,9 +62,9 @@ public class Utils
 
             for (int i = 1; i <= k; i++)
             {
-                
 
-                var aux = trainIndicesBase.Skip(i*foldSize).ToList();
+
+                var aux = trainIndicesBase.Skip(i * foldSize).ToList();
 
                 trainSetsX.Add(aux.Select(idx => xValues[idx]).ToList());
                 trainSetsY.Add(aux.Select(idx => yValues[idx]).ToList());
@@ -95,7 +95,7 @@ public class Utils
 
             // Gera índices aleatórios sem mudar a ordem do Y
             int total = xValues.Count;
-            int foldSize = total/k;
+            int foldSize = total / k;
 
             var indices = Enumerable.Range(0, total).OrderBy(_ => Guid.NewGuid()).ToList(); // Embaralha índices
 
@@ -150,7 +150,6 @@ public class Utils
             return (trainX, trainY, testX, testY);
         }
     }
-
     public (double mae, double mse, double rmse) CalculateError(List<double> yTest, List<double> yPred)
     {
         double absoluteErrorSum = 0;
@@ -169,7 +168,7 @@ public class Utils
         return (mae, mse, rmse);
     }
 
-    public (double beta0, double beta1) CalculateCoeficients(List<double> x, List<double> y)
+    public (double beta0, double beta1) CalculateCoefficients(List<double> x, List<double> y)
     {
         if (x.Count != y.Count || x.Count == 0)
             throw new ArgumentException("As listas de valores x e y devem ter o mesmo tamanho e não podem estar vazias.");

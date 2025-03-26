@@ -39,7 +39,7 @@ public class ComposedRegressionAVG
             yList.Add(yTrain[i + 1]);
 
             // Calcula os coeficientes da reta
-            (double beta0, double beta1) = utils.CalculateCoeficients(xList, yList);
+            (double beta0, double beta1) = utils.CalculateCoefficients(xList, yList);
 
             // Calcula os valores para montar a reta
             double[] lineXs = [xList[0], xTrain.Max()];
