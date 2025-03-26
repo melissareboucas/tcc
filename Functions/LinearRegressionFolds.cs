@@ -12,7 +12,7 @@ public class LinearRegressionFolds
         List<string> headers = utils.LoadHeaders(pathCsv);
 
         //define a quantidade de partições
-        int k = 10;
+        int k = 5;
         (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitData2(pathCsv, k);
         List<double> yPred = new List<double>();
 

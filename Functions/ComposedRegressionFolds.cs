@@ -10,7 +10,7 @@ public class ComposedRegressionFolds
         // Carrega os dados dos arquivos CSV
         List<string> headers = utils.LoadHeaders(pathCsv);
 
-        int k = 10;
+        int k = 5;
         (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitData2(pathCsv, k);
         List<double> yPred = new List<double>();
 
@@ -35,37 +35,40 @@ public class ComposedRegressionFolds
                 var xList = new List<double>();
                 var yList = new List<double>();
 
-                xList.Add(xTrain[i]);
-                xList.Add(xTrain[i + 1]);
-
-                yList.Add(yTrain[i]);
-                yList.Add(yTrain[i + 1]);
-
-                // Calcula os coeficientes da reta
-                (double beta0, double beta1) = utils.CalculateCoefficients(xList, yList);
-
-                // Calcula/atualiza os valores de yTemp
-                if (i == 0)
+                if (i+1 <= xTrain.Count-1)
                 {
-                    foreach (var x in xTest)
+                    xList.Add(xTrain[i]);
+                    xList.Add(xTrain[i + 1]);
+
+                    yList.Add(yTrain[i]);
+                    yList.Add(yTrain[i + 1]);
+
+                    // Calcula os coeficientes da reta
+                    (double beta0, double beta1) = utils.CalculateCoefficients(xList, yList);
+
+                    // Calcula/atualiza os valores de yTemp
+                    if (i == 0)
                     {
-                        yPredTemp.Add(beta1 * x + beta0);
+                        foreach (var x in xTest)
+                        {
+                            yPredTemp.Add(beta1 * x + beta0);
+                        }
+                    }
+                    else
+                    {
+                        var aux = 0;
+                        foreach (var x in xTest)
+                        {
+                            var med = (yPredTemp[aux] + (beta1 * x + beta0)) / 2;
+                            yPredTemp[aux] = med;
+                            aux++;
+                        }
                     }
                 }
-                else
-                {
-                    var aux = 0;
-                    foreach (var x in xTest)
-                    {
-                        var med = (yPredTemp[aux] + (beta1 * x + beta0)) / 2;
-                        yPredTemp[aux] = med;
-                        aux++;
-                    }
-                }
 
-                if (max >= xTrain.Count)
+                if (max >= xTrain.Count - 1)
                 {
-                    max = xTrain.Count-1;
+                    max = xTrain.Count - 1;
                 }
             }
 

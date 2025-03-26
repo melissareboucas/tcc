@@ -10,7 +10,7 @@ class Program
 {
     static void Main()
     {
-        var dataname = "mpg";
+        var dataname = "mortality";
         LinearRegression linearRegression = new LinearRegression();
         linearRegression.RunLinearRegression($"Datasets/{dataname}.csv");
 

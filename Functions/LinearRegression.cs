@@ -9,7 +9,7 @@ public class LinearRegression
         var utils = new Utils();
         // Carrega os dados dos arquivos CSV
         List<string> headers = utils.LoadHeaders(pathCsv);
-        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitDataV3(pathCsv);
+        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitData(pathCsv);
         List<double> yPred = new List<double>();
 
         // Cria o gráfico
