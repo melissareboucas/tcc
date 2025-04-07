@@ -73,6 +73,51 @@ public class Utils
             return (trainSetsX, trainSetsY, testX, testY);
         }
     }
+    public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitData3(string path, int k)
+    {
+         var data = new List<(double X, double Y)>();
+
+        using (var reader = new StreamReader(path))
+        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+        {
+            csv.Read();
+            csv.ReadHeader();
+
+            while (csv.Read())
+            {
+                var xStr = csv.GetField(0);
+                var yStr = csv.GetField(1);
+
+                if (double.TryParse(xStr, NumberStyles.Any, CultureInfo.InvariantCulture, out double x) &&
+                    double.TryParse(yStr, NumberStyles.Any, CultureInfo.InvariantCulture, out double y))
+                {
+                    data.Add((x, y));
+                }
+            }
+        }
+
+        // Embaralhamento determinístico
+        int seed = 42;
+        var rng = new Random(seed);
+        data = data.OrderBy(d => rng.Next()).ToList();
+
+        // Divisão
+        int total = data.Count;
+        int folderSize = total / (k + 1);
+        int trainCount = folderSize * k;
+
+        var train = data.Take(trainCount).ToList();
+        var test = data.Skip(trainCount).ToList();
+
+        var trainX = train.Select(d => d.X).ToList();
+        var trainY = train.Select(d => d.Y).ToList();
+        var testX = test.Select(d => d.X).ToList();
+        var testY = test.Select(d => d.Y).ToList();
+
+        return (trainX, trainY, testX, testY);
+    }
+
+
 
     public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitData2(string path, int k)
     {
