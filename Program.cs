@@ -15,7 +15,7 @@ class Program
         //linearRegression.RunLinearRegression($"Datasets/{dataname}.csv");
 
         ComposedRegression composedRegression = new ComposedRegression();
-        //composedRegression.RunComposedRegression($"Datasets/{dataname}.csv");
+        composedRegression.RunComposedRegression($"Datasets/{dataname}.csv");
 
         ComposedRegressionFolds composedRegressionFolds = new ComposedRegressionFolds();
         //composedRegressionFolds.RunComposedRegressionFolds($"Datasets/{dataname}.csv");

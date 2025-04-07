@@ -75,7 +75,7 @@ public class Utils
     }
     public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitData3(string path, int k)
     {
-         var data = new List<(double X, double Y)>();
+        var data = new List<(double X, double Y)>();
 
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
@@ -181,7 +181,8 @@ public class Utils
             int total = xValues.Count;
             int trainSize = (int)(total * 0.8);
 
-            var indices = Enumerable.Range(0, total).OrderBy(_ => Guid.NewGuid()).ToList(); // Embaralha índices
+            var rng = new Random(42);
+            var indices = Enumerable.Range(0, total).OrderBy(i => rng.Next()).ToList();
 
             var trainIndices = indices.Take(trainSize).ToList();
             var testIndices = indices.Skip(trainSize).ToList();
