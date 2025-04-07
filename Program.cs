@@ -12,7 +12,7 @@ class Program
     {
         var dataname = "mortality";
         LinearRegression linearRegression = new LinearRegression();
-        //linearRegression.RunLinearRegression($"Datasets/{dataname}.csv");
+        linearRegression.RunLinearRegression($"Datasets/{dataname}.csv");
 
         ComposedRegression composedRegression = new ComposedRegression();
         composedRegression.RunComposedRegression($"Datasets/{dataname}.csv");
@@ -25,5 +25,8 @@ class Program
 
         LinearRegressionFolds linearRegressionFolds = new LinearRegressionFolds();
         //linearRegressionFolds.RunLinearRegressionFolds($"Datasets/{dataname}.csv");
+
+        LinearRegressionFoldsModified linearRegressionFoldsModified = new LinearRegressionFoldsModified();
+        linearRegressionFoldsModified.RunLinearRegressionFoldsModified($"Datasets/{dataname}.csv");
     }
 }
