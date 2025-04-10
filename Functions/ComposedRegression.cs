@@ -9,7 +9,7 @@ public class ComposedRegression
         var utils = new Utils();
         // Carrega os dados dos arquivos CSV
         List<string> headers = utils.LoadHeaders(pathCsv);
-        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) =  utils.LoadAndSplitData(pathCsv);
+        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitDataTemporal(pathCsv);
         List<double> yPred = new List<double>();
 
         // Cria o gráfico
@@ -53,7 +53,7 @@ public class ComposedRegression
                 var index = 0;
                 foreach (var x in xTest)
                 {
-                    var med = (yPred[index] + (beta1*x + beta0))/2;
+                    var med = (yPred[index] + (beta1 * x + beta0)) / 2;
                     yPred[index] = med;
                     index++;
                 }
@@ -70,11 +70,67 @@ public class ComposedRegression
         (double mae, double mse, double rmse) = utils.CalculateError(yTest, yPred);
 
         // Adiciona valores de erro no gráfico
-        string errosTexto = $"MAE: {mae:F2}\nMSE: {mse/1000:F2}k\nRMSE: {rmse:F2}";
+        string errosTexto = $"MAE: {mae:F2}\nMSE: {mse:F2}\nRMSE: {rmse:F2}";
         plot.Add.Annotation(errosTexto);
 
         //Salva o gráfico
         plot.SavePng("ComposedRegression.png", 600, 400);
 
     }
+
+    public void RunComposedRegressionWeighted(string pathCsv)
+    {
+        var utils = new Utils();
+        List<string> headers = utils.LoadHeaders(pathCsv);
+        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitDataTemporal(pathCsv);
+
+        List<double> yPred = new List<double>(new double[xTest.Count]);
+        List<double> weightSum = new List<double>(Enumerable.Repeat(0.0, xTest.Count));
+
+        double alpha = 1.0; // define o "ritmo" da queda do peso com a distância temporal
+
+        var plot = new ScottPlot.Plot();
+        plot.Title("Regressão Linear Ponderada por Tempo");
+        plot.XLabel(headers[0]);
+        plot.YLabel(headers[1]);
+
+        for (int i = 0; i < xTrain.Count - 1; i++)
+        {
+            var xList = new List<double> { xTrain[i], xTrain[i + 1] };
+            var yList = new List<double> { yTrain[i], yTrain[i + 1] };
+
+            (double beta0, double beta1) = utils.CalculateCoefficients(xList, yList);
+
+            // Centro temporal da reta
+            double centerX = (xList[0] + xList[1]) / 2.0;
+
+            for (int j = 0; j < xTest.Count; j++)
+            {
+                double distance = Math.Abs(xTest[j] - centerX);
+                double weight = Math.Exp(-alpha * distance);
+                double pred = beta1 * xTest[j] + beta0;
+
+                yPred[j] += pred * weight;
+                weightSum[j] += weight;
+            }
+        }
+
+        // Finaliza cálculo da média ponderada
+        for (int j = 0; j < yPred.Count; j++)
+        {
+            yPred[j] = yPred[j] / weightSum[j];
+        }
+
+        // Gráficos
+        plot.Add.ScatterPoints(xTrain, yTrain, color: Colors.Blue);
+        plot.Add.ScatterPoints(xTest, yTest, color: Colors.Purple);
+        plot.Add.ScatterPoints(xTest, yPred, color: Colors.Orange);
+
+        (double mae, double mse, double rmse) = utils.CalculateError(yTest, yPred);
+        string errosTexto = $"MAE: {mae:F2}\nMSE: {mse:F2}\nRMSE: {rmse:F2}";
+        plot.Add.Annotation(errosTexto);
+
+        plot.SavePng("ComposedRegression_Weighted.png", 600, 400);
+    }
+
 }

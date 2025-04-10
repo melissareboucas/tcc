@@ -9,7 +9,7 @@ public class LinearRegression
         var utils = new Utils();
         // Carrega os dados dos arquivos CSV
         List<string> headers = utils.LoadHeaders(pathCsv);
-        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitData(pathCsv);
+        (List<double> xTrain, List<double> yTrain, List<double> xTest, List<double> yTest) = utils.LoadAndSplitDataTemporal(pathCsv);
         List<double> yPred = new List<double>();
 
         // Cria o gráfico
@@ -40,7 +40,7 @@ public class LinearRegression
         (double mae, double mse, double rmse) = utils.CalculateError(yTest, yPred);
 
         // Adiciona valores de erro no gráfico
-        string errosTexto = $"MAE: {mae:F2}\nMSE: {mse / 1000:F2}k\nRMSE: {rmse:F2}";
+        string errosTexto = $"MAE: {mae:F2}\nMSE: {mse:F2}\nRMSE: {rmse:F2}";
         plot.Add.Annotation(errosTexto);
 
         //Salva o gráfico

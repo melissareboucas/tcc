@@ -57,7 +57,7 @@ public class LinearRegressionFoldsModified
         (double mae, double mse, double rmse) = utils.CalculateError(yTest, yPred);
 
         // Adiciona valores de erro no gráfico
-        string errosTexto = $"MAE: {mae:F2}\nMSE: {mse / 1000:F2}k\nRMSE: {rmse:F2}";
+        string errosTexto = $"MAE: {mae/1000000:F2}M\nMSE: {mse / 1000000:F2}M\nRMSE: {rmse/1000000:F2}M";
         plot.Add.Annotation(errosTexto);
 
         //Salva o gráfico

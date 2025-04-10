@@ -196,6 +196,35 @@ public class Utils
             return (trainX, trainY, testX, testY);
         }
     }
+    public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitDataTemporal(string path)
+    {
+        using (var reader = new StreamReader(path))
+        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+        {
+            var xValues = new List<double>();
+            var yValues = new List<double>();
+
+            csv.Read();
+            csv.ReadHeader();
+
+            while (csv.Read())
+            {
+                xValues.Add(csv.GetField<double>(0));
+                yValues.Add(csv.GetField<double>(1));
+            }
+
+            int total = xValues.Count;
+            int trainSize = (int)(total * 0.8);
+
+            var trainX = xValues.Take(trainSize).ToList();
+            var trainY = yValues.Take(trainSize).ToList();
+            var testX = xValues.Skip(trainSize).ToList();
+            var testY = yValues.Skip(trainSize).ToList();
+
+            return (trainX, trainY, testX, testY);
+        }
+    }
+
     public (double mae, double mse, double rmse) CalculateError(List<double> yTest, List<double> yPred)
     {
         double absoluteErrorSum = 0;
