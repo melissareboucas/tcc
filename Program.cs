@@ -16,18 +16,18 @@ class Program
 
         ComposedRegression composedRegression = new ComposedRegression();
         composedRegression.RunComposedRegression($"Datasets/{dataname}.csv");
-        composedRegression.RunComposedRegressionWeighted($"Datasets/{dataname}.csv");
+        //composedRegression.RunComposedRegressionWeighted($"Datasets/{dataname}.csv");
 
         ComposedRegressionFolds composedRegressionFolds = new ComposedRegressionFolds();
         //composedRegressionFolds.RunComposedRegressionFolds($"Datasets/{dataname}.csv");
 
         ComposedRegressionFoldsModified composedRegressionFoldsModified = new ComposedRegressionFoldsModified();
-        //composedRegressionFoldsModified.RunComposedRegressionFoldsModified($"Datasets/{dataname}.csv");
+        composedRegressionFoldsModified.RunComposedRegressionFoldsModified($"Datasets/{dataname}.csv");
 
         LinearRegressionFolds linearRegressionFolds = new LinearRegressionFolds();
         //linearRegressionFolds.RunLinearRegressionFolds($"Datasets/{dataname}.csv");
 
         LinearRegressionFoldsModified linearRegressionFoldsModified = new LinearRegressionFoldsModified();
-        //linearRegressionFoldsModified.RunLinearRegressionFoldsModified($"Datasets/{dataname}.csv");
+        linearRegressionFoldsModified.RunLinearRegressionFoldsModified($"Datasets/{dataname}.csv");
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Linear-Regression")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a38262daa2fb71d078656213a47ad65a84444700")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34cad36fddc333f0d42907bd770e9acf1b02ce64")]
 [assembly: System.Reflection.AssemblyProductAttribute("Linear-Regression")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Linear-Regression")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
