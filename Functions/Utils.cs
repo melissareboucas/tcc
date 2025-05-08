@@ -23,56 +23,6 @@ public class Utils
             return headers;
         }
     }
-    public (List<List<double>> trainSetsX, List<List<double>> trainSetsY, List<double> testX, List<double> testY) LoadDataFolders(string path, int k)
-    {
-        using (var reader = new StreamReader(path))
-        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
-        {
-            var xValues = new List<double>();
-            var yValues = new List<double>();
-
-            // Lê o cabeçalho e ignora
-            csv.Read();
-            csv.ReadHeader();
-
-            // Lê os dados já ordenados por Y (garantido pelo CSV)
-            while (csv.Read())
-            {
-                xValues.Add(csv.GetField<double>(0));
-                yValues.Add(csv.GetField<double>(1));
-            }
-
-            // Gera índices aleatórios sem mudar a ordem do Y
-            int total = xValues.Count;
-            int foldSize = total / k;
-
-            var indices = Enumerable.Range(0, total).OrderBy(_ => Guid.NewGuid()).ToList(); // Embaralha índices
-
-            var testIndices = indices.Take(foldSize).ToList();
-            var testX = testIndices.Select(i => xValues[i]).ToList();
-            var testY = testIndices.Select(i => yValues[i]).ToList();
-
-            var trainIndicesBase = indices.Skip(foldSize).ToList();
-
-            var trainSetsX = new List<List<double>>();
-            var trainSetsY = new List<List<double>>();
-
-            int trainFoldSize = trainIndicesBase.Count / k;
-
-
-            for (int i = 1; i <= k; i++)
-            {
-
-
-                var aux = trainIndicesBase.Skip(i * foldSize).ToList();
-
-                trainSetsX.Add(aux.Select(idx => xValues[idx]).ToList());
-                trainSetsY.Add(aux.Select(idx => yValues[idx]).ToList());
-            }
-
-            return (trainSetsX, trainSetsY, testX, testY);
-        }
-    }
     public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitData3(string path, int k)
     {
         var data = new List<(double X, double Y)>();
@@ -116,48 +66,6 @@ public class Utils
 
         return (trainX, trainY, testX, testY);
     }
-
-
-
-    public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitData2(string path, int k)
-    {
-        using (var reader = new StreamReader(path))
-        using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
-        {
-            var xValues = new List<double>();
-            var yValues = new List<double>();
-
-            // Lê o cabeçalho e ignora
-            csv.Read();
-            csv.ReadHeader();
-
-            // Lê os dados já ordenados por Y (garantido pelo CSV)
-            while (csv.Read())
-            {
-                xValues.Add(csv.GetField<double>(0));
-                yValues.Add(csv.GetField<double>(1));
-            }
-
-            // Gera índices aleatórios sem mudar a ordem do Y
-            int total = xValues.Count;
-            int foldSize = total / k;
-
-            var indices = Enumerable.Range(0, total).OrderBy(_ => Guid.NewGuid()).ToList(); // Embaralha índices
-
-            var trainIndices = indices.Skip(foldSize).ToList();
-            var testIndices = indices.Take(foldSize).ToList();
-
-            // Seleciona os valores correspondentes aos índices aleatórios
-            var trainX = trainIndices.Select(i => xValues[i]).ToList();
-            var trainY = trainIndices.Select(i => yValues[i]).ToList();
-            var testX = testIndices.Select(i => xValues[i]).ToList();
-            var testY = testIndices.Select(i => yValues[i]).ToList();
-
-            return (trainX, trainY, testX, testY);
-        }
-    }
-
-
     public (List<double> trainX, List<double> trainY, List<double> testX, List<double> testY) LoadAndSplitData(string path)
     {
         using (var reader = new StreamReader(path))
@@ -224,7 +132,6 @@ public class Utils
             return (trainX, trainY, testX, testY);
         }
     }
-
     public (double mae, double mse, double rmse) CalculateError(List<double> yTest, List<double> yPred)
     {
         double absoluteErrorSum = 0;
@@ -242,7 +149,6 @@ public class Utils
         double rmse = Math.Sqrt(mse);
         return (mae, mse, rmse);
     }
-
     public (double beta0, double beta1) CalculateCoefficients(List<double> x, List<double> y)
     {
         if (x.Count != y.Count || x.Count == 0)
